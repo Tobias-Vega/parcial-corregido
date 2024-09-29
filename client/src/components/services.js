@@ -135,7 +135,34 @@ export const services = (session) => {
 
         const coffe = service.coffee;
 
-        // ! IMPLEMENTAR LÓGICA PARA CREAR UNA ORDEN
+        try {
+          const response = await fetch('http://localhost:4321/orders', {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({coffee: coffe}),
+            credentials: "include"
+          });
+          if(!response.ok) {
+            throw new Error("Error al crear la sesión")
+          }
+          const data = await response.json();
+
+          Swal.fire({
+            title: "Order Created!",
+            text: `Your order for ${coffe} has been placed successfully.`,
+            icon: "success",
+            confirmButtonText: "Okay",
+          })
+        } catch (error) {
+          Swal.fire({
+            title: "Order Failed",
+            text: error.message,
+            icon: "error",
+            confirmButtonText: "Try Again",
+          });
+        }
       });
     });
   });

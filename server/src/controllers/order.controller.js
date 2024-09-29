@@ -23,7 +23,7 @@ export const getOrderByIdCtrl = async (req,res) => {
   const order = await getOrderById(id, user.id);
 
   if(!order) {
-    return res.status(404).json({ msg: 'Order not found' })
+    return res.status(404).json({ message: 'Order not found' })
   }
 
   res.status(200).json(order)
@@ -37,7 +37,7 @@ export const deleteOrderByIdCtrl = async (req,res) => {
   const deleteOrder = await deleteOrderById(id, user.id);
 
   if (!deleteOrder) {
-    return res.status(404).json({ msg: 'Order not found' })
+    return res.status(404).json({ message: 'Order not found' })
   }
   res.status(204).send()
 }

@@ -183,8 +183,23 @@ export function navbar(session = null) {
       "bg-primary/70 hover:scale-105 duration-200 text-white px-4 py-2 rounded-full";
     logoutButton.textContent = "Logout";
 
-    logoutButton.addEventListener("click", () => {
-      // ! HACER EL LOGOUT DEL USUARIO Y REDIRIGIR A LA PÁGINA DE LOGIN
+    logoutButton.addEventListener("click", async () => {
+      try {
+        const response = await fetch("http://localhost:4321/auth/sign-out",{
+          method: "POST",
+          credentials: "include"
+        })
+
+        if(response.ok) {
+          window.location.href = "/pages/login.html"
+        } else {
+          const error = await response.json()
+          alert(`Error: ${error.message}`)
+        }
+      } catch (error) {
+        console.error('Error de conexión:', error);
+        alert('No se pudo conectar al servidor')
+      }
     });
 
     menuDiv.appendChild(logoutButton);
